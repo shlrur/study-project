@@ -10,6 +10,7 @@ function App() {
       <div className="container">
         <h1>Weekly Business Report</h1>
         <SearchMenu />
+        <div className="row-md">report section</div>
       </div>
     </div>
   );

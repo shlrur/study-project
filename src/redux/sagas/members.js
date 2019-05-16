@@ -1,27 +1,30 @@
-import { all, takeEvery, put } from "redux-saga/effects";
+import { all, takeEvery, put, call } from "redux-saga/effects";
 
 import {
-    types,
-    getLabMemberInfoSuccess,
-    getLabMemberInfoFailure
+  types,
+  getLabMemberInfoSuccess,
+  getLabMemberInfoFailure
 } from "../actions/members";
 
 import { getTeamList, getPeopleList } from "../../mock-data/api";
 
 function* getLabMemberInfoSaga() {
-    try {
-        let teamList = [],
-            peopleList = [];
+  try {
+    let teamList = [],
+      peopleList = [];
 
-        yield put(getLabMemberInfoSuccess(teamList, peopleList));
-    } catch (err) {
-        console.err(err);
-        yield put(getLabMemberInfoFailure(err));
-    }
+    teamList = yield call(getTeamList);
+    peopleList = yield call(getPeopleList);
+
+    yield (teamList = yield put(getLabMemberInfoSuccess(teamList, peopleList)));
+  } catch (err) {
+    console.log(err);
+    yield put(getLabMemberInfoFailure(err));
+  }
 }
 
 export default function* membersRootSaga() {
-    yield all([
-        takeEvery(types.GET_LAB_MEMBER_INFO.REQUEST, getLabMemberInfoSaga)
-    ]);
+  yield all([
+    takeEvery(types.GET_LAB_MEMBER_INFO.REQUEST, getLabMemberInfoSaga)
+  ]);
 }
