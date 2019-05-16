@@ -2,7 +2,7 @@ import React from "react";
 
 import "../../assets/styles/styles.scss";
 
-import SearchMenu from "./searchMenu";
+import SearchMenu from "./search-menu";
 
 function App() {
   return (
