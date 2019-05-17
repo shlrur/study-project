@@ -1,22 +1,23 @@
 export const types = {
-  GET_BUSINESS_REPORT_LIST_INFO: {
-    REQUEST: "GET_BUSINESS_REPORT_LIST_INFO.REQUEST",
-    SUCCESS: "GET_BUSINESS_REPORT_LIST_INFO.SUCCESS",
-    FAILURE: "GET_BUSINESS_REPORT_LIST_INFO.FAILURE"
+  GET_BUSINESS_REPORT_LIST: {
+    REQUEST: "GET_BUSINESS_REPORT_LIST.REQUEST",
+    SUCCESS: "GET_BUSINESS_REPORT_LIST.SUCCESS",
+    FAILURE: "GET_BUSINESS_REPORT_LIST.FAILURE"
   }
 };
 
-// get lab member information
-export const getLabMemberInfoRequest = () => ({
-  type: types.GET_BUSINESS_REPORT_LIST_INFO.REQUEST
+// get business report list
+export const getbusinessReportListRequest = (teamId, personId) => ({
+  type: types.GET_BUSINESS_REPORT_LIST.REQUEST,
+  teamId,
+  personId
 });
 
-export const getLabMemberInfoSuccess = (teamList, peopleList) => ({
-  type: types.GET_BUSINESS_REPORT_LIST_INFO.SUCCESS,
-  teamList,
-  peopleList
+export const getbusinessReportListSuccess = reportList => ({
+  type: types.GET_BUSINESS_REPORT_LIST.SUCCESS,
+  reportList
 });
 
-export const getLabMemberInfoFailure = () => ({
-  type: types.GET_BUSINESS_REPORT_LIST_INFO.FAILURE
+export const getbusinessReportListFailure = () => ({
+  type: types.GET_BUSINESS_REPORT_LIST.FAILURE
 });

@@ -11,6 +11,7 @@
     "node-sass": "4.12.0",
     "popper.js": "1.15.0",
     "react": "16.8.6",
+    "react-daterange-picker": "2.0.1",
     "react-dom": "16.8.6",
     "react-redux": "7.0.3",
     "react-router-dom": "5.0.0",
