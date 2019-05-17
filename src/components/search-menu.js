@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 
 import { getLabMemberInfoRequest } from "../redux/actions/members";
 
+import DateRange from "./date-range";
+
 class SearchMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -17,8 +19,8 @@ class SearchMenu extends React.Component {
   render() {
     return (
       <div className="row">
-        <label className="col-md-3">Team</label>
-        <div className="col-md-3 dropdown">
+        <label className="col-md-2">Team</label>
+        <div className="col-md-2 dropdown">
           <button
             className="btn btn-secondary dropdown-toggle"
             type="button"
@@ -44,8 +46,8 @@ class SearchMenu extends React.Component {
             })}
           </div>
         </div>
-        <label className="col-md-3">Member</label>
-        <div className="col-md-3 dropdown">
+        <label className="col-md-2">Member</label>
+        <div className="col-md-2 dropdown">
           <button
             className="btn btn-secondary dropdown-toggle"
             type="button"
@@ -72,6 +74,9 @@ class SearchMenu extends React.Component {
               );
             })}
           </div>
+        </div>
+        <div className="col-md-4">
+          <DateRange onDateChange={this.selectDate.bind(this)} />
         </div>
       </div>
     );
@@ -126,6 +131,12 @@ class SearchMenu extends React.Component {
     this.setState({
       selectedPerson
     });
+  }
+
+  selectDate(dateRange) {
+    const [startDate, endDate] = dateRange;
+
+    console.log(startDate, endDate);
   }
 }
 
