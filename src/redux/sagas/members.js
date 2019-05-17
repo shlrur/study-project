@@ -16,7 +16,7 @@ function* getLabMemberInfoSaga() {
     teamList = yield call(getTeamList);
     peopleList = yield call(getPeopleList);
 
-    yield (teamList = yield put(getLabMemberInfoSuccess(teamList, peopleList)));
+    yield put(getLabMemberInfoSuccess(teamList, peopleList));
   } catch (err) {
     console.log(err);
     yield put(getLabMemberInfoFailure(err));

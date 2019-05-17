@@ -7,17 +7,18 @@ export const types = {
 };
 
 // get business report list
-export const getbusinessReportListRequest = (teamId, personId) => ({
+export const getBusinessReportListRequest = (team, person, dateRange) => ({
   type: types.GET_BUSINESS_REPORT_LIST.REQUEST,
-  teamId,
-  personId
+  team,
+  person,
+  dateRange
 });
 
-export const getbusinessReportListSuccess = reportList => ({
+export const getBusinessReportListSuccess = reportList => ({
   type: types.GET_BUSINESS_REPORT_LIST.SUCCESS,
   reportList
 });
 
-export const getbusinessReportListFailure = () => ({
+export const getBusinessReportListFailure = () => ({
   type: types.GET_BUSINESS_REPORT_LIST.FAILURE
 });

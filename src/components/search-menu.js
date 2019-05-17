@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 
 import { getLabMemberInfoRequest } from "../redux/actions/members";
+import { getBusinessReportListRequest } from "../redux/actions/business-report";
 
 import DateRange from "./date-range";
 
@@ -11,8 +12,9 @@ class SearchMenu extends React.Component {
 
     this.state = {
       memberCandidates: [],
-      selectedTeam: {},
-      selectedPerson: {}
+      selectedTeam: null,
+      selectedPerson: null,
+      selectedDate: null
     };
   }
 
@@ -112,11 +114,16 @@ class SearchMenu extends React.Component {
       );
     });
 
-    this.setState({
-      memberCandidates,
-      selectedTeam,
-      selectedPerson: memberCandidates[0]
-    });
+    this.setState(
+      {
+        memberCandidates,
+        selectedTeam,
+        selectedPerson: memberCandidates[0]
+      },
+      () => {
+        this.getWeeklyReports();
+      }
+    );
   }
 
   selectPerson(personId) {
@@ -128,15 +135,43 @@ class SearchMenu extends React.Component {
       return person.id === personId;
     })[0];
 
-    this.setState({
-      selectedPerson
-    });
+    this.setState(
+      {
+        selectedPerson
+      },
+      () => {
+        this.getWeeklyReports();
+      }
+    );
   }
 
   selectDate(dateRange) {
-    const [startDate, endDate] = dateRange;
+    this.setState(
+      {
+        selectedDate: dateRange
+      },
+      () => {
+        this.getWeeklyReports();
+      }
+    );
+  }
 
-    console.log(startDate, endDate);
+  getWeeklyReports() {
+    if (
+      !(
+        this.state.selectedTeam &&
+        this.state.selectedPerson &&
+        this.state.selectedDate
+      )
+    ) {
+      return;
+    }
+
+    this.props.getBusinessReportListRequest(
+      this.state.selectedTeam,
+      this.state.selectedPerson,
+      this.state.selectedDate
+    );
   }
 }
 
@@ -146,12 +181,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getLabMemberInfoRequest
+  getLabMemberInfoRequest,
+  getBusinessReportListRequest
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(SearchMenu);
-
-// export default SearchMenu;
