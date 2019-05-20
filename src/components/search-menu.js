@@ -91,11 +91,16 @@ class SearchMenu extends React.Component {
   componentWillReceiveProps(next) {
     const { teamList, peopleList } = next;
 
-    this.setState({
-      memberCandidates: [...peopleList],
-      selectedTeam: teamList[0],
-      selectedPerson: peopleList[0]
-    });
+    this.setState(
+      {
+        memberCandidates: [...peopleList],
+        selectedTeam: teamList[0],
+        selectedPerson: peopleList[0]
+      },
+      () => {
+        this.getWeeklyReports();
+      }
+    );
   }
 
   selectTeam(teamId) {

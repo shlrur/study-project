@@ -1,7 +1,5 @@
 import React from "react";
 
-import "../../assets/styles/styles.scss";
-
 import SearchMenu from "./search-menu";
 import ReportViewer from "./report-viewer";
 

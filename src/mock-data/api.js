@@ -69,7 +69,9 @@ export function getReportList(teamId, personId, dateRange) {
     .forEach(person => {
       for (i = 0; i < searchingDateRange.length; i++) {
         reportList.push({
+          id: person.name + searchingDateRange[i][0].format("MM-DD"),
           name: person.name,
+          level: person.level,
           date: searchingDateRange[i][0].format("MM-DD"),
           contents: "temporary text"
         });
