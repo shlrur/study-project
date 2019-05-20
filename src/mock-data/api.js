@@ -68,12 +68,17 @@ export function getReportList(teamId, personId, dateRange) {
     })
     .forEach(person => {
       for (i = 0; i < searchingDateRange.length; i++) {
+        let date = searchingDateRange[i][0].format("MM-DD");
+        let id = person.name + date;
         reportList.push({
-          id: person.name + searchingDateRange[i][0].format("MM-DD"),
+          id: id,
           name: person.name,
           level: person.level,
-          date: searchingDateRange[i][0].format("MM-DD"),
-          contents: "temporary text"
+          date: date,
+          contents: {
+            result: `${person.name}의 ${date} 실적`,
+            plan: `${person.name}의 ${date} 계획`
+          }
         });
       }
     });

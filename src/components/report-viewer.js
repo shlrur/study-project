@@ -1,14 +1,28 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import _ from "lodash";
 
 import BootstrapTable from "react-bootstrap-table-next";
-import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
+// import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
-const { SearchBar } = Search;
+// const { SearchBar } = Search;
 
 class ReportViewer extends React.Component {
   constructor(props) {
     super(props);
+
+    this.debounced = _.debounce(
+      this.searchKeywordChangeHandler.bind(this),
+      300
+    );
+    this.valueForPreventDuplicated = "";
+
+    this.state = {
+      expanded: [],
+      originReportList: [],
+      showingReportList: [],
+      searchKeyword: ""
+    };
 
     this.columns = [
       {
@@ -39,9 +53,9 @@ class ReportViewer extends React.Component {
           <div>
             <p>{`This Expand row is belong to rowKey ${row.id}`}</p>
             <p>[지난주]</p>
-            <p>지난주 실적</p>
+            <p>{row.contents.result}</p>
             <p>[이번주]</p>
-            <p>이번주 계획</p>
+            <p>{row.contents.plan}</p>
           </div>
         );
       },
@@ -74,14 +88,26 @@ class ReportViewer extends React.Component {
             <b>보기</b>
           </div>
         );
-      }
+      },
+      expanded: []
     };
   }
 
   render() {
+    this.expandRow.expanded = this.state.expanded;
+
     return (
       <div className="row">
-        <ToolkitProvider
+        <div className="search">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search text"
+            value={this.state.searchKeyword}
+            onChange={this.searchKeywordChanged.bind(this)}
+          />
+        </div>
+        {/* <ToolkitProvider
           keyField="id"
           data={this.props.reportList}
           columns={this.columns}
@@ -95,9 +121,74 @@ class ReportViewer extends React.Component {
               <BootstrapTable {...props.baseProps} expandRow={this.expandRow} />
             </div>
           )}
-        </ToolkitProvider>
+        </ToolkitProvider> */}
+        <BootstrapTable
+          keyField="id"
+          data={this.state.showingReportList}
+          columns={this.columns}
+          expandRow={this.expandRow}
+        />
       </div>
     );
+  }
+
+  componentWillReceiveProps(next) {
+    const { reportList } = next;
+
+    this.setState({
+      originReportList: reportList,
+      showingReportList: reportList
+    });
+  }
+
+  // onTest() {
+  //   this.setState({
+  //     expanded: ["김영준05-20"]
+  //   });
+  // }
+
+  searchKeywordChanged(e) {
+    this.setState({
+      searchKeyword: e.target.value
+    });
+
+    this.debounced();
+  }
+
+  searchKeywordChangeHandler() {
+    if (this.valueForPreventDuplicated === this.state.searchKeyword) {
+      return;
+    }
+
+    if (!this.state.searchKeyword.replace(/^\s+|\s+$/g, "")) {
+      this.setState({
+        showingReportList: this.state.originReportList,
+        expanded: []
+      });
+      return;
+    }
+
+    this.valueForPreventDuplicated = this.state.searchKeyword;
+
+    this.filterReportsBySearchKeyword(this.state.searchKeyword);
+  }
+
+  filterReportsBySearchKeyword(keyword) {
+    let showingReportList = this.state.originReportList.filter(report => {
+      return (
+        report.name.indexOf(keyword) !== -1 ||
+        report.level.toString().indexOf(keyword) !== -1 ||
+        report.date.indexOf(keyword) !== -1 ||
+        report.contents.result.indexOf(keyword) !== -1 ||
+        report.contents.plan.indexOf(keyword) !== -1
+      );
+    });
+    this.setState({
+      showingReportList,
+      expanded: showingReportList.map(report => {
+        return report.id;
+      })
+    });
   }
 }
 
