@@ -65,13 +65,17 @@ class ReportViewer extends React.Component {
         if (isAnyExpands) {
           return (
             <div className="text-center">
-              <b>-</b>
+              <button type="button" className="btn btn-info btn-sm">
+                -
+              </button>
             </div>
           );
         }
         return (
           <div className="text-center">
-            <b>+</b>
+            <button type="button" className="btn btn-info btn-sm">
+              +
+            </button>
           </div>
         );
       },
@@ -79,13 +83,17 @@ class ReportViewer extends React.Component {
         if (expanded) {
           return (
             <div className="text-center">
-              <b>줄이기</b>
+              <button type="button" className="btn btn-info btn-sm">
+                줄이기
+              </button>
             </div>
           );
         }
         return (
           <div className="text-center">
-            <b>보기</b>
+            <button type="button" className="btn btn-info btn-sm">
+              보기
+            </button>
           </div>
         );
       },
